@@ -1,8 +1,8 @@
 ---
 type: reference
 title: Cross-linking & the knowledge graph
-tags: [links, graph, see-also, nested, cross-folder, discovery]
-timestamp: 2026-06-18T00:00:00Z
+tags: [links, graph, see-also, nested, cross-folder, discovery, site]
+timestamp: 2026-11-10T00:00:00Z
 ---
 
 # Cross-linking & the knowledge graph
@@ -20,6 +20,20 @@ skill folders — so deeply-nested knowledge reaches it without you naming the n
 | Into a sibling skill | relative path up+over | `[Sale by Product](../reports/sales-by-product.md)` |
 
 Always use **relative paths** so links survive being moved, mirrored, or rendered to HTML.
+
+## Links that count as graph edges
+
+The wiki renderer builds its D3 graph only from links matching `](path.md)` or
+`](path.md#anchor)` (see [site-rendering.md](site-rendering.md)). So:
+
+- Use **inline** markdown links. Reference-style `[x][ref]`, bare paths in prose and
+  paths in backticks are not edges.
+- No spaces or `)` in link paths. Keep files kebab-case.
+- A link to a file that doesn't exist, or that resolves outside the bundle root, is
+  dropped from the graph. On the page it still turns into a broken `.html` link.
+- Self-links are ignored, and the same edge is counted once per source doc.
+- Every `.md` href is rewritten to `.html`. External URLs are left alone, so link to code
+  or GitHub with a full URL rather than a repo-relative `.ts` path.
 
 ## The both-ways rule
 

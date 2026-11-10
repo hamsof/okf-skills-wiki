@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rendering skills to the wiki site</title><style>
+:root{--bg:#0d1117;--fg:#c9d1d9;--mut:#8b949e;--acc:#58a6ff;--card:#161b22;--bd:#30363d;--idx:#d29922;--ref:#3fb950}
+*{box-sizing:border-box}body{margin:0;font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:900px;margin:0 auto;padding:24px}
+.crumb{color:var(--mut);font-size:13px;margin-bottom:8px}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.04em}
+.badge.index{background:rgba(210,153,34,.15);color:var(--idx)}.badge.reference{background:rgba(63,185,80,.15);color:var(--ref)}
+.chips{margin:10px 0 18px}.chip{display:inline-block;font-size:12px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:2px 9px;margin:2px 4px 2px 0;color:var(--mut);cursor:pointer}
+.chip:hover{color:var(--acc);border-color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:20px 0}
+table{border-collapse:collapse;width:100%;margin:14px 0}th,td{border:1px solid var(--bd);padding:6px 10px;text-align:left}th{background:var(--card)}
+pre{background:var(--card);border:1px solid var(--bd);padding:12px;border-radius:6px;overflow:auto}code{background:var(--card);padding:1px 5px;border-radius:4px}pre code{background:none;padding:0}
+pre.mermaid{background:#fff;text-align:center;line-height:normal}
+h1,h2,h3{line-height:1.25}h1{font-size:26px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.controls input,.controls select{background:var(--card);border:1px solid var(--bd);color:var(--fg);padding:7px 10px;border-radius:6px}
+.controls input{flex:1;min-width:200px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px;margin:10px 0}
+.card h3{margin:0 0 4px}.card .meta{font-size:12px;color:var(--mut);margin-bottom:6px}
+.tagcloud{margin:8px 0 4px}
+.graphwrap{margin:18px 0}
+.graphwrap .meta{font-size:12px;color:var(--mut)}
+#graph{position:relative;width:100%;height:min(62vh,560px);border:1px solid var(--bd);border-radius:14px;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 30%,#151f31 0%,#0d1117 72%)}
+#graph.full{position:fixed;inset:0;width:100vw;height:100vh;border-radius:0;z-index:1000}
+#graph svg{width:100%;height:100%;cursor:grab;display:block;touch-action:none}
+#graph svg:active{cursor:grabbing}
+.gtools{position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:2}
+.gtools button{width:30px;height:30px;padding:0;display:grid;place-items:center;font-size:14px;line-height:1;
+  background:rgba(22,27,34,.85);border:1px solid var(--bd);color:var(--mut);border-radius:8px;cursor:pointer;backdrop-filter:blur(6px)}
+.gtools button:hover{color:var(--acc);border-color:var(--acc)}
+.gtools button.wide{width:auto;padding:0 10px;font-size:12px}
+.glegend{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;z-index:2;
+  padding:8px 10px;background:linear-gradient(to top,rgba(13,17,23,.92) 60%,transparent)}
+.glegend span{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--mut);cursor:pointer;
+  background:rgba(22,27,34,.8);border:1px solid var(--bd);border-radius:11px;padding:2px 8px;backdrop-filter:blur(6px);transition:color .15s,border-color .15s,opacity .15s}
+.glegend span:hover{color:var(--fg);border-color:var(--acc)}
+.glegend span.off{opacity:.35}
+.glegend i{width:8px;height:8px;border-radius:50%;display:block}
+#graph .hint{position:absolute;left:12px;top:10px;font-size:11px;color:var(--mut);pointer-events:none;opacity:.55;z-index:2}
+.gcard{position:absolute;right:10px;bottom:10px;width:270px;max-width:60%;z-index:2;
+  background:rgba(22,27,34,.94);border:1px solid var(--bd);border-radius:10px;padding:11px 13px;backdrop-filter:blur(8px);
+  opacity:0;transform:translateY(6px);transition:opacity .18s,transform .18s;pointer-events:none}
+.gcard.on{opacity:1;transform:none}
+.gcard h4{margin:0 0 3px;font-size:13px;line-height:1.35;color:var(--fg)}
+.gcard p{margin:4px 0 0;font-size:11.5px;color:var(--mut);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gcard .sub{font-size:11px;color:var(--mut)}
+.gnode{cursor:pointer}
+.gnode circle{stroke:#0d1117;stroke-width:1.5px;transition:stroke .2s,opacity .25s}
+.gnode:hover circle{stroke:#fff}
+.gnode text{fill:var(--mut);font-size:10px;pointer-events:none;paint-order:stroke;stroke:#0d1117;stroke-width:3px;stroke-linejoin:round;
+  opacity:0;transition:opacity .2s,fill .2s}
+.gnode.hub text{opacity:.6}
+g.zoomed .gnode text{opacity:.85}
+.gnode.show text{opacity:1;fill:#e6edf3}
+.glink{stroke:#30363d;stroke-opacity:.5;transition:stroke .2s,stroke-opacity .2s,opacity .25s}
+.dim{opacity:.06}
+.fade{opacity:.12}
+</style></head>
+<body><div class="wrap"><div class="crumb"><a href="../index.html">skills</a></div>
+<span class="badge reference">reference</span>
+<h1>Rendering skills to the wiki site</h1>
+<div class="chips"><a class="chip" href="../index.html?tag=site">#site</a><a class="chip" href="../index.html?tag=wiki">#wiki</a><a class="chip" href="../index.html?tag=render">#render</a><a class="chip" href="../index.html?tag=build">#build</a><a class="chip" href="../index.html?tag=html">#html</a><a class="chip" href="../index.html?tag=graph">#graph</a><a class="chip" href="../index.html?tag=okf-skills-wiki">#okf-skills-wiki</a><a class="chip" href="../index.html?tag=hook">#hook</a><a class="chip" href="../index.html?tag=github-pages">#github-pages</a></div><hr><h1>Rendering skills to the wiki site</h1>
+<p>The same markdown that Claude reads is rendered into a static wiki by
+<a href="https://github.com/hamsof/okf-skills-wiki/blob/main/tools/build-html.mjs"><code>tools/build-html.mjs</code></a>
+in this repo. The renderer's parser is deliberately tiny, so a few
+authoring rules exist only to keep it working. Those rules live in
+<a href="frontmatter-spec.html">frontmatter-spec.md</a>, <a href="cross-linking.html">cross-linking.md</a> and
+<a href="diagrams.html">diagrams.md</a>; this page explains the pipeline they protect. Parent:
+<a href="SKILL.html">SKILL.md</a>.</p>
+<h2>Pipeline</h2>
+<pre class="mermaid">flowchart LR
+    A[&quot;SRC: .claude/skills/**.md&quot;] --&gt; B[&quot;walk: every .md, skip .git and node_modules&quot;]
+    B --&gt; C[&quot;parseFrontmatter: line regex, inline tag list&quot;]
+    C --&gt; D[&quot;markdown-it render, mermaid fence to pre.mermaid&quot;]
+    D --&gt; E[&quot;rewrite href x.md to x.html&quot;]
+    C --&gt; F[&quot;collect inline links ending .md&quot;]
+    F --&gt; G[&quot;graph edges, grouped by top-level folder&quot;]
+    E --&gt; H[&quot;docs/&amp;lt;path&amp;gt;.html per doc&quot;]
+    G --&gt; I[&quot;docs/index.html: cards, tag cloud, D3 graph&quot;]
+</pre><h2>What each frontmatter field drives</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Used for on the site</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>page <code>&lt;h1&gt;</code>, card heading, graph node label</td>
+<td>the file path is shown</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>badge colour (<code>index</code> gold, <code>reference</code> green), type filter, node colour</td>
+<td>treated as <code>reference</code></td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>chips on the page, tag cloud, <code>?tag=</code> filter</td>
+<td>no chips, not findable by tag</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>text on the index card and graph hover card</td>
+<td>blank card body</td>
+</tr>
+<tr>
+<td><code>name</code>, <code>resource</code>, <code>timestamp</code></td>
+<td>ignored by the renderer (<code>name</code> is still needed by Claude Code)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>Build behaviour worth knowing</h2>
+<ul>
+<li><code>docs/</code> is <strong>wiped and regenerated</strong> on every build (<code>rmSync(OUT)</code>). Never hand-edit
+anything under <code>docs/</code>.</li>
+<li>Graph node size = number of links in and out. An orphan leaf shows up as a lone dot,
+which makes the &quot;no orphans&quot; rule easy to check by eye.</li>
+<li>Graph colour and the legend filter come from the <strong>top-level folder</strong> under <code>SRC</code>, so
+one skill = one colour group.</li>
+<li>Only the <code>markdown-it</code> package is needed. Mermaid v11 and D3 load from a CDN at view time.</li>
+</ul>
+<h2>Running it</h2>
+<pre><code class="language-bash">npm install
+npm run build:site                      # → docs/, open docs/index.html
+bash .claude/hooks/rebuild-site.sh --full
+</code></pre>
+<p><code>.claude/settings.json</code> sets up a <code>PostToolUse</code> hook (matcher <code>Write|Edit|MultiEdit</code>)
+that runs <code>rebuild-site.sh</code>. The script reads the hook JSON, rebuilds only when
+<code>tool_input.file_path</code> is under <code>.claude/skills/</code>, and otherwise exits 0. That keeps
+<code>docs/</code> in step with the skills.</p>
+<p>To render another bundle, copy <code>build-html.mjs</code> and point <code>SRC</code> at it. The <code>docs/</code> output
+is a static site that GitHub Pages can serve as-is.</p>
+<h2>See also</h2>
+<ul>
+<li><a href="checklist.html">checklist.md</a> — the renderer-compatibility gate.</li>
+</ul>
+</div><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:true,theme:'default'});</script></body></html>

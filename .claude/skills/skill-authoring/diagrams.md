@@ -2,7 +2,7 @@
 type: reference
 title: Diagrams in skills (mermaid)
 tags: [diagrams, mermaid, sequence, flowchart, visual, readability, dark-theme]
-timestamp: 2026-07-22T00:00:00Z
+timestamp: 2026-11-10T00:00:00Z
 ---
 
 # Diagrams in skills (mermaid)
@@ -32,7 +32,8 @@ enum spec, a checklist) don't need one. When in doubt and the doc has arrows-in-
 
 ## Authoring
 
-- Fence with ```` ```mermaid ```` so it renders on GitHub and the site.
+- Fence with ```` ```mermaid ```` so it renders on GitHub and the site. The fence info must
+  be exactly `mermaid` (no `mermaid title=…`), or the site shows it as a code block.
 - Put the diagram in the **leaf** where the concept lives; an index may carry one
   high-level overview diagram.
 - Keep it to the essentials — a diagram that needs a legend to read has too much in it.
@@ -45,7 +46,8 @@ enum spec, a checklist) don't need one. When in doubt and the doc has arrows-in-
   `Note over A,B: ...` section headers instead, and status markers (✅ current / ⛔
   deprecated) in the note text.
 - Let text render in the viewer's theme color — don't hard-code colors that only work in
-  one theme.
+  one theme. The diagram must read in **both**: GitHub dark draws on dark, while the wiki
+  site draws mermaid v11 `theme: default` on a **white** panel inside a dark page.
 - Prefer short participant aliases (`participant Q1 as SQS: app-install`) over long raw
   names that overflow the lane.
 - **Keep message text plain.** In `sequenceDiagram` messages, characters like `{ } " ; *`

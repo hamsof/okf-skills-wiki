@@ -1,13 +1,14 @@
 ---
 type: reference
 title: Pre-commit checklist
-tags: [checklist, gate, review, validation]
-timestamp: 2026-06-18T00:00:00Z
+tags: [checklist, gate, review, validation, site]
+timestamp: 2026-11-10T00:00:00Z
 ---
 
 # Pre-commit checklist
 
-Manual gate. Run through this before committing any skill change.
+Manual gate. Run through this before committing any skill change. Renderer rules:
+[site-rendering.md](site-rendering.md).
 
 ## Frontmatter
 
@@ -16,6 +17,8 @@ Manual gate. Run through this before committing any skill change.
 - [ ] `title`, `tags`, `timestamp` present on every file.
 - [ ] `index` files also have `name` + a keyword-rich `description`.
 - [ ] `timestamp` updated on every file you changed.
+- [ ] Parser-safe: `---` on line 1, `tags: [inline, list]`, single-line unquoted values
+      (see [frontmatter-spec.md](frontmatter-spec.md#parser-safe-syntax)).
 
 ## Tags
 
@@ -38,4 +41,5 @@ Manual gate. Run through this before committing any skill change.
 
 - [ ] Cross-domain dependencies linked **both ways**.
 - [ ] All links use relative paths and resolve.
+- [ ] Doc links are inline `[x](path.md)` with no spaces, so they become graph edges.
 - [ ] No duplicated content — link to the canonical doc instead.

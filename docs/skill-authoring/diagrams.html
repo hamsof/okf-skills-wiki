@@ -105,7 +105,8 @@ enum spec, a checklist) don't need one. When in doubt and the doc has arrows-in-
 </table>
 <h2>Authoring</h2>
 <ul>
-<li>Fence with <code>```mermaid</code> so it renders on GitHub and the site.</li>
+<li>Fence with <code>```mermaid</code> so it renders on GitHub and the site. The fence info must
+be exactly <code>mermaid</code> (no <code>mermaid title=…</code>), or the site shows it as a code block.</li>
 <li>Put the diagram in the <strong>leaf</strong> where the concept lives; an index may carry one
 high-level overview diagram.</li>
 <li>Keep it to the essentials — a diagram that needs a legend to read has too much in it.
@@ -118,7 +119,8 @@ grey text on dark-theme viewers (GitHub dark, the site) and become unreadable. U
 <code>Note over A,B: ...</code> section headers instead, and status markers (✅ current / ⛔
 deprecated) in the note text.</li>
 <li>Let text render in the viewer's theme color — don't hard-code colors that only work in
-one theme.</li>
+one theme. The diagram must read in <strong>both</strong>: GitHub dark draws on dark, while the wiki
+site draws mermaid v11 <code>theme: default</code> on a <strong>white</strong> panel inside a dark page.</li>
 <li>Prefer short participant aliases (<code>participant Q1 as SQS: app-install</code>) over long raw
 names that overflow the lane.</li>
 <li><strong>Keep message text plain.</strong> In <code>sequenceDiagram</code> messages, characters like <code>{ } &quot; ; *</code>
