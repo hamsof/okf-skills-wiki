@@ -63,7 +63,7 @@ g.zoomed .gnode text{opacity:.85}
 <body><div class="wrap"><div class="crumb"><a href="../index.html">skills</a></div>
 <span class="badge index">index</span>
 <h1>Skill Authoring (OKF)</h1>
-<div class="chips"><a class="chip" href="../index.html?tag=skill">#skill</a><a class="chip" href="../index.html?tag=authoring">#authoring</a><a class="chip" href="../index.html?tag=okf">#okf</a><a class="chip" href="../index.html?tag=frontmatter">#frontmatter</a><a class="chip" href="../index.html?tag=index">#index</a><a class="chip" href="../index.html?tag=cross-linking">#cross-linking</a><a class="chip" href="../index.html?tag=convention">#convention</a><a class="chip" href="../index.html?tag=meta">#meta</a></div><hr><h1>Skill Authoring (OKF)</h1>
+<div class="chips"><a class="chip" href="../index.html?tag=skill">#skill</a><a class="chip" href="../index.html?tag=authoring">#authoring</a><a class="chip" href="../index.html?tag=okf">#okf</a><a class="chip" href="../index.html?tag=frontmatter">#frontmatter</a><a class="chip" href="../index.html?tag=index">#index</a><a class="chip" href="../index.html?tag=cross-linking">#cross-linking</a><a class="chip" href="../index.html?tag=site">#site</a><a class="chip" href="../index.html?tag=wiki">#wiki</a><a class="chip" href="../index.html?tag=convention">#convention</a><a class="chip" href="../index.html?tag=meta">#meta</a></div><hr><h1>Skill Authoring (OKF)</h1>
 <p>Single source of truth for adding knowledge to a skills folder. Every skill is an
 <strong>OKF bundle</strong>: a directory of markdown files, each with YAML frontmatter, cross-linked
 into a knowledge graph. An <code>index</code> doc (the <code>SKILL.md</code>) routes to <code>reference</code> leaf docs.</p>
@@ -116,6 +116,11 @@ never have to name a deeply-nested skill by hand.</p>
 <td>diagrams, mermaid, visual</td>
 </tr>
 <tr>
+<td>How skills render to the wiki site (build script, hook, parser limits)</td>
+<td><a href="site-rendering.html">site-rendering.md</a></td>
+<td>site, wiki, render, build, graph, hook</td>
+</tr>
+<tr>
 <td>Pre-commit checklist</td>
 <td><a href="checklist.html">checklist.md</a></td>
 <td>checklist, gate, review</td>
@@ -128,6 +133,7 @@ never have to name a deeply-nested skill by hand.</p>
 <li>Only two <code>type</code> values: <code>index</code>, <code>reference</code>.</li>
 <li>If knowledge in folder A is needed while reading folder B, link both ways — see <a href="cross-linking.html">cross-linking.md</a>.</li>
 <li>Any doc describing a flow, sequence, or lifecycle carries a mermaid diagram — see <a href="diagrams.html">diagrams.md</a>.</li>
+<li>Write frontmatter and links the wiki renderer can parse — see <a href="site-rendering.html">site-rendering.md</a>.</li>
 <li>Run the <a href="checklist.html">checklist.md</a> before committing.</li>
 </ol>
 </div><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:true,theme:'default'});</script></body></html>

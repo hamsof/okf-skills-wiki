@@ -3,8 +3,8 @@ name: skill-authoring
 description: How to author a new skill using OKF (Open Knowledge Format) plus an index-router convention. Read this BEFORE creating or restructuring any skill, sub-skill, or knowledge doc.
 type: index
 title: Skill Authoring (OKF)
-tags: [skill, authoring, okf, frontmatter, index, cross-linking, convention, meta]
-timestamp: 2026-06-18T00:00:00Z
+tags: [skill, authoring, okf, frontmatter, index, cross-linking, site, wiki, convention, meta]
+timestamp: 2026-11-10T00:00:00Z
 ---
 
 # Skill Authoring (OKF)
@@ -41,6 +41,7 @@ never have to name a deeply-nested skill by hand.
 | Linking within and across folders | [cross-linking.md](cross-linking.md) | links, graph, see-also, nested |
 | Step-by-step authoring flows | [authoring-workflow.md](authoring-workflow.md) | workflow, steps, create |
 | When & how to add mermaid diagrams | [diagrams.md](diagrams.md) | diagrams, mermaid, visual |
+| How skills render to the wiki site (build script, hook, parser limits) | [site-rendering.md](site-rendering.md) | site, wiki, render, build, graph, hook |
 | Pre-commit checklist | [checklist.md](checklist.md) | checklist, gate, review |
 
 ## Non-negotiables
@@ -49,4 +50,5 @@ never have to name a deeply-nested skill by hand.
 2. Only two `type` values: `index`, `reference`.
 3. If knowledge in folder A is needed while reading folder B, link both ways — see [cross-linking.md](cross-linking.md).
 4. Any doc describing a flow, sequence, or lifecycle carries a mermaid diagram — see [diagrams.md](diagrams.md).
-5. Run the [checklist.md](checklist.md) before committing.
+5. Write frontmatter and links the wiki renderer can parse — see [site-rendering.md](site-rendering.md).
+6. Run the [checklist.md](checklist.md) before committing.

@@ -63,7 +63,7 @@ g.zoomed .gnode text{opacity:.85}
 <body><div class="wrap"><div class="crumb"><a href="../index.html">skills</a></div>
 <span class="badge reference">reference</span>
 <h1>OKF frontmatter spec</h1>
-<div class="chips"><a class="chip" href="../index.html?tag=frontmatter">#frontmatter</a><a class="chip" href="../index.html?tag=schema">#schema</a><a class="chip" href="../index.html?tag=type">#type</a><a class="chip" href="../index.html?tag=tags">#tags</a><a class="chip" href="../index.html?tag=resource">#resource</a><a class="chip" href="../index.html?tag=timestamp">#timestamp</a><a class="chip" href="../index.html?tag=yaml">#yaml</a></div><hr><h1>OKF frontmatter spec</h1>
+<div class="chips"><a class="chip" href="../index.html?tag=frontmatter">#frontmatter</a><a class="chip" href="../index.html?tag=schema">#schema</a><a class="chip" href="../index.html?tag=type">#type</a><a class="chip" href="../index.html?tag=tags">#tags</a><a class="chip" href="../index.html?tag=resource">#resource</a><a class="chip" href="../index.html?tag=timestamp">#timestamp</a><a class="chip" href="../index.html?tag=yaml">#yaml</a><a class="chip" href="../index.html?tag=parser">#parser</a><a class="chip" href="../index.html?tag=site">#site</a></div><hr><h1>OKF frontmatter spec</h1>
 <p>Every markdown file in a skill bundle starts with a YAML frontmatter block. This is the
 OKF schema, narrowed to what a skills folder needs.</p>
 <h2>Two file roles</h2>
@@ -162,10 +162,24 @@ timestamp: 2026-06-18T00:00:00Z
 <li>tags are how the model finds the right child — be generous but precise</li>
 <li>an index's <code>tags</code> should be the union of its children's themes</li>
 </ul>
+<h2>Parser-safe syntax</h2>
+<p>The wiki renderer (see <a href="site-rendering.html">site-rendering.md</a>) reads frontmatter with a
+one-line regex, not a YAML library. Anything outside this subset is silently dropped:</p>
+<ul>
+<li>The file must <strong>begin</strong> with <code>---</code> on line 1: no blank line or BOM before it. Close
+the block with <code>---</code>.</li>
+<li>One <code>key: value</code> per line. Keys are letters and <code>_</code> only.</li>
+<li><code>tags</code> <strong>must</strong> be an inline list: <code>tags: [a, b, c]</code>. A block list (<code>- a</code> on the
+following lines) parses as empty, so the doc ends up with no tags.</li>
+<li>Every value stays on one line: no <code>&gt;</code> or <code>|</code> folded or multi-line <code>description</code>.</li>
+<li>Don't quote values. Quotes are kept as literal characters. A colon inside the value is fine.</li>
+<li>Missing <code>type</code> falls back to <code>reference</code>, and a missing <code>title</code> shows the file path.
+Set both explicitly.</li>
+</ul>
 <h2>Why frontmatter on leaves too</h2>
 <p>An agent host only reads <code>SKILL.md</code> to register a skill; it ignores extra fields and never
 parses leaf frontmatter. Leaf frontmatter exists for the <strong>model</strong> (routing by <code>tags</code>),
-for the <a href="checklist.html">checklist.md</a>, and for tools like the HTML site builder. It is cheap
+for the <a href="checklist.html">checklist.md</a>, and for the HTML site builder (see <a href="site-rendering.html">site-rendering.md</a>). It is cheap
 and enables the graph search that solves nested-skill discovery — see
 <a href="cross-linking.html">cross-linking.md</a>.</p>
 </div><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:true,theme:'default'});</script></body></html>

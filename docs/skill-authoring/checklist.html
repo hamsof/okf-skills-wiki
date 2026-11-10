@@ -63,8 +63,9 @@ g.zoomed .gnode text{opacity:.85}
 <body><div class="wrap"><div class="crumb"><a href="../index.html">skills</a></div>
 <span class="badge reference">reference</span>
 <h1>Pre-commit checklist</h1>
-<div class="chips"><a class="chip" href="../index.html?tag=checklist">#checklist</a><a class="chip" href="../index.html?tag=gate">#gate</a><a class="chip" href="../index.html?tag=review">#review</a><a class="chip" href="../index.html?tag=validation">#validation</a></div><hr><h1>Pre-commit checklist</h1>
-<p>Manual gate. Run through this before committing any skill change.</p>
+<div class="chips"><a class="chip" href="../index.html?tag=checklist">#checklist</a><a class="chip" href="../index.html?tag=gate">#gate</a><a class="chip" href="../index.html?tag=review">#review</a><a class="chip" href="../index.html?tag=validation">#validation</a><a class="chip" href="../index.html?tag=site">#site</a></div><hr><h1>Pre-commit checklist</h1>
+<p>Manual gate. Run through this before committing any skill change. Renderer rules:
+<a href="site-rendering.html">site-rendering.md</a>.</p>
 <h2>Frontmatter</h2>
 <ul>
 <li>[ ] Every <code>.md</code> touched (index <strong>and</strong> leaf) has a YAML frontmatter block.</li>
@@ -72,6 +73,8 @@ g.zoomed .gnode text{opacity:.85}
 <li>[ ] <code>title</code>, <code>tags</code>, <code>timestamp</code> present on every file.</li>
 <li>[ ] <code>index</code> files also have <code>name</code> + a keyword-rich <code>description</code>.</li>
 <li>[ ] <code>timestamp</code> updated on every file you changed.</li>
+<li>[ ] Parser-safe: <code>---</code> on line 1, <code>tags: [inline, list]</code>, single-line unquoted values
+(see <a href="frontmatter-spec.html#parser-safe-syntax">frontmatter-spec.md</a>).</li>
 </ul>
 <h2>Tags</h2>
 <ul>
@@ -94,6 +97,7 @@ g.zoomed .gnode text{opacity:.85}
 <ul>
 <li>[ ] Cross-domain dependencies linked <strong>both ways</strong>.</li>
 <li>[ ] All links use relative paths and resolve.</li>
+<li>[ ] Doc links are inline <code>[x](path.md)</code> with no spaces, so they become graph edges.</li>
 <li>[ ] No duplicated content — link to the canonical doc instead.</li>
 </ul>
 </div><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:true,theme:'default'});</script></body></html>

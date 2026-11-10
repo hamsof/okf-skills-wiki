@@ -63,7 +63,7 @@ g.zoomed .gnode text{opacity:.85}
 <body><div class="wrap"><div class="crumb"><a href="../index.html">skills</a></div>
 <span class="badge reference">reference</span>
 <h1>Cross-linking &amp; the knowledge graph</h1>
-<div class="chips"><a class="chip" href="../index.html?tag=links">#links</a><a class="chip" href="../index.html?tag=graph">#graph</a><a class="chip" href="../index.html?tag=see-also">#see-also</a><a class="chip" href="../index.html?tag=nested">#nested</a><a class="chip" href="../index.html?tag=cross-folder">#cross-folder</a><a class="chip" href="../index.html?tag=discovery">#discovery</a></div><hr><h1>Cross-linking &amp; the knowledge graph</h1>
+<div class="chips"><a class="chip" href="../index.html?tag=links">#links</a><a class="chip" href="../index.html?tag=graph">#graph</a><a class="chip" href="../index.html?tag=see-also">#see-also</a><a class="chip" href="../index.html?tag=nested">#nested</a><a class="chip" href="../index.html?tag=cross-folder">#cross-folder</a><a class="chip" href="../index.html?tag=discovery">#discovery</a><a class="chip" href="../index.html?tag=site">#site</a></div><hr><h1>Cross-linking &amp; the knowledge graph</h1>
 <p>This is the part that solves nested-skill discovery. OKF docs link to each other via
 markdown links, forming a graph. The model follows links — including links into <em>other</em>
 skill folders — so deeply-nested knowledge reaches it without you naming the nested skill.</p>
@@ -95,6 +95,19 @@ skill folders — so deeply-nested knowledge reaches it without you naming the n
 </tbody>
 </table>
 <p>Always use <strong>relative paths</strong> so links survive being moved, mirrored, or rendered to HTML.</p>
+<h2>Links that count as graph edges</h2>
+<p>The wiki renderer builds its D3 graph only from links matching <code>](path.md)</code> or
+<code>](path.md#anchor)</code> (see <a href="site-rendering.html">site-rendering.md</a>). So:</p>
+<ul>
+<li>Use <strong>inline</strong> markdown links. Reference-style <code>[x][ref]</code>, bare paths in prose and
+paths in backticks are not edges.</li>
+<li>No spaces or <code>)</code> in link paths. Keep files kebab-case.</li>
+<li>A link to a file that doesn't exist, or that resolves outside the bundle root, is
+dropped from the graph. On the page it still turns into a broken <code>.html</code> link.</li>
+<li>Self-links are ignored, and the same edge is counted once per source doc.</li>
+<li>Every <code>.md</code> href is rewritten to <code>.html</code>. External URLs are left alone, so link to code
+or GitHub with a full URL rather than a repo-relative <code>.ts</code> path.</li>
+</ul>
 <h2>The both-ways rule</h2>
 <blockquote>
 <p>If knowledge in folder A is needed while reading folder B, link both ways.</p>

@@ -1,8 +1,8 @@
 ---
 type: reference
 title: OKF frontmatter spec
-tags: [frontmatter, schema, type, tags, resource, timestamp, yaml]
-timestamp: 2026-06-18T00:00:00Z
+tags: [frontmatter, schema, type, tags, resource, timestamp, yaml, parser, site]
+timestamp: 2026-11-10T00:00:00Z
 ---
 
 # OKF frontmatter spec
@@ -63,10 +63,25 @@ timestamp: 2026-06-18T00:00:00Z
 - tags are how the model finds the right child — be generous but precise
 - an index's `tags` should be the union of its children's themes
 
+## Parser-safe syntax
+
+The wiki renderer (see [site-rendering.md](site-rendering.md)) reads frontmatter with a
+one-line regex, not a YAML library. Anything outside this subset is silently dropped:
+
+- The file must **begin** with `---` on line 1: no blank line or BOM before it. Close
+  the block with `---`.
+- One `key: value` per line. Keys are letters and `_` only.
+- `tags` **must** be an inline list: `tags: [a, b, c]`. A block list (`- a` on the
+  following lines) parses as empty, so the doc ends up with no tags.
+- Every value stays on one line: no `>` or `|` folded or multi-line `description`.
+- Don't quote values. Quotes are kept as literal characters. A colon inside the value is fine.
+- Missing `type` falls back to `reference`, and a missing `title` shows the file path.
+  Set both explicitly.
+
 ## Why frontmatter on leaves too
 
 An agent host only reads `SKILL.md` to register a skill; it ignores extra fields and never
 parses leaf frontmatter. Leaf frontmatter exists for the **model** (routing by `tags`),
-for the [checklist.md](checklist.md), and for tools like the HTML site builder. It is cheap
+for the [checklist.md](checklist.md), and for the HTML site builder (see [site-rendering.md](site-rendering.md)). It is cheap
 and enables the graph search that solves nested-skill discovery — see
 [cross-linking.md](cross-linking.md).
